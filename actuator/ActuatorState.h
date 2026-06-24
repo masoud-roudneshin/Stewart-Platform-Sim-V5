@@ -44,9 +44,8 @@ public:
     void set_gravity_feedforward(real_t F);
 
     // Physics update — call once per control timestep
-    real_t update(real_t F_load);
 
-    double force_control_update(double F_cmd, double F_load = 0.0);
+    double update(double F_cmd, double F_load = 0.0);
 
     // Getters 
     real_t get_stroke()        const noexcept;

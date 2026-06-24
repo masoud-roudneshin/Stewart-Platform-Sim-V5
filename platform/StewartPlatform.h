@@ -39,8 +39,8 @@ public:
 
     void set_actuator_target(int index, real_t total_length);
     void set_pose(const Pose6DoF& pose_);
-    void update(real_t dt_step);
-    void update_task_space(const Vec6& leg_forces, real_t dt);
+
+    void update(const Vec6& leg_forces);
 
     const ActuatorState& get_actuator(int index) const;
     ActuatorState& get_actuator_mutable(int index);

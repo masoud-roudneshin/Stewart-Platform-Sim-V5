@@ -7,6 +7,10 @@
 #include "platform/StewartPlatform.h"
 #include "control/TaskSpaceController.h"
 #include "threading/SharedData.h" 
+#include "control/IController.h"
+#include "control/JointSpaceController.h"
+#include "control/StewartController.h"
+
 
 int main()
 {
@@ -37,7 +41,9 @@ int main()
     Kp_gains *= 5.0;
     Kd_gains *= 3.0;
 
-    TaskSpaceController ts_controller(Kp_gains, Kd_gains);
+    StewartController controller;
+    //controller.set_strategy(std::make_unique<TaskSpaceController>(Kp_gains, Kd_gains));
+    controller.set_strategy(std::make_unique<JointSpaceController>(2.0,5.0,10,0.7,0.001));
 
     // FK initial guess
     Pose6DoF actual_pose;
@@ -57,6 +63,8 @@ int main()
         target_leg_lengths, dummy1, dummy2);
 
     Vec6 L_dot;
+    Vec6 desired_vec = target_leg_lengths;
+    Vec6 actual_vec;
 
     for (int step = 0; step <= 5000; step++)
     {
@@ -81,36 +89,31 @@ int main()
         Vec6 actual_velocity = J.colPivHouseholderQr().solve(L_dot);
 
         // 3. Compute leg forces from task-space controller
-        Vec6 leg_forces = ts_controller.compute(actual_pose, desired,
-            actual_velocity, J);
+        // ------------- TaskSpace Control ---------------------
+
+        // desired_vec = Kinematics::pose_to_vec(desired);
+        // actual_vec = Kinematics::pose_to_vec(actual_pose);
+
+        //Vec6 leg_forces = controller.compute(desired_vec, actual_vec, actual_velocity, J);
+        //------------ JointSpace Control -----------------------
+        for (int i = 0; i < 6; i++)
+            actual_vec(i) = platform.get_actuator(i).get_total_length();
+
+        Vec6 leg_forces = controller.compute(desired_vec, actual_vec, L_dot, J);
+
+        //
+        Vec6 measured_lengths;
 
         // 4. Apply forces and update based on mode
-        if (mode == ControlMode::TASK_SPACE)
-        {
-            platform.update_task_space(leg_forces, dt);
+        platform.update(leg_forces);
 
-            // Get actual leg lengths from actuators for FK
-            Vec6 measured_lengths;
-            for (int i = 0; i < 6; i++)
-                measured_lengths(i) = platform.get_actuator(i).get_total_length();
+        // 5. Get actual leg lengths from actuators for FK
 
-            // 5. Run FK to get actual pose
-            Kinematics::compute_forward_kinematics(geom, measured_lengths, actual_pose);
-        }
-        else  // JOINT_SPACE
-        {
-            // Set target strokes from IK
-            for (int i = 0; i < 6; i++)
-                platform.set_actuator_target(i, target_leg_lengths(i));
-            platform.update(dt);
+        for (int i = 0; i < 6; i++)
+            measured_lengths(i) = platform.get_actuator(i).get_total_length();
 
-            // Get actual leg lengths for FK
-            Vec6 measured_lengths;
-            for (int i = 0; i < 6; i++)
-                measured_lengths(i) = platform.get_actuator(i).get_total_length();
-
-            Kinematics::compute_forward_kinematics(geom, measured_lengths, actual_pose);
-        }
+        // 6. Run FK to get actual pose
+        Kinematics::compute_forward_kinematics(geom, measured_lengths, actual_pose);
 
         // 7. Print every 100 steps
         if (step % 500 == 0)

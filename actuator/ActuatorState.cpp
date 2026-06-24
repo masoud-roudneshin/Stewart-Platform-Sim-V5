@@ -42,22 +42,8 @@ void ActuatorState::apply_force(real_t f)
 void ActuatorState::set_gravity_feedforward(real_t F) { F_gravity = F; }
 
 // Physics update — call once per control timestep
-real_t ActuatorState::update(real_t F_load)
-{
-    // PD controller computes force command from position error
-    real_t F_cmd = pd.compute(  target_stroke,
-                                driver.get_stroke(),
-                                driver.get_velocity(),
-                                F_gravity);
-    // Convert force → iq_ref
-    apply_force(F_cmd);
 
-    // FOC driver executes
-    return driver.update(iq_ref, F_load);
-
-}
-
-real_t ActuatorState::force_control_update(double F_cmd, double F_load)
+real_t ActuatorState::update(double F_cmd, double F_load)
 {
     apply_force(F_cmd);              // set iq_ref from force
     return driver.update(iq_ref, F_load);  // bypass PD

@@ -46,7 +46,7 @@ void SafetyMonitor::update(real_t dt)
     if (state == PlatformState::ESTOP || state == PlatformState::FAULT)
         return;   // we silently do nothing — platform frozen
 
-    platform.update(dt);
+    //platform.update(dt);
 
     try { check_actuator_limits(); }
     catch (const std::runtime_error& e)

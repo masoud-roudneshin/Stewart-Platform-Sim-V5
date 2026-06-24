@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="control\JointSpaceController.cpp" />
+    <ClCompile Include="control\StewartController.cpp" />
     <ClCompile Include="control\TaskSpaceController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="actuator\MotorDriver.cpp" />
@@ -145,6 +147,9 @@
     <ClCompile Include="threading\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="control\IController.h" />
+    <ClInclude Include="control\JointSpaceController.h" />
+    <ClInclude Include="control\StewartController.h" />
     <ClInclude Include="control\TaskSpaceController.h" />
     <ClInclude Include="math\Math.h" />
     <ClInclude Include="geometry\Geometry.h" />
