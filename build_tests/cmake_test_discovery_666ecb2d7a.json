@@ -1,0 +1,64 @@
+{
+  "tests": 8,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "KinematicsTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "PureHeaveGivesEqualLegLengths",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 31
+        },
+        {
+          "name": "UnitVectorsHaveUnitLength",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 49
+        },
+        {
+          "name": "FKConvergesFromGoodInitialGuess",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 67
+        },
+        {
+          "name": "FKRecoversTruePosition",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 89
+        },
+        {
+          "name": "FKIKRoundTrip",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 108
+        },
+        {
+          "name": "NeutralPoseGivesZeroRoll",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_kinematics.cpp",
+          "line": 134
+        }
+      ]
+    },
+    {
+      "name": "ControllersTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "Placeholder",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_controllers.cpp",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "name": "UtilsTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "Placeholder",
+          "file": "C:\\Users\\masou\\Desktop\\Projects\\Github_Control\\Stewart_Platform_V3\\tests\\test_utils.cpp",
+          "line": 4
+        }
+      ]
+    }
+  ]
+}

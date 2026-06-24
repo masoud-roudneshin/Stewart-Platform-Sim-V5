@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\tests\test_kinematics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\tests\test_controllers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\tests\test_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\actuator\MotorDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\actuator\ActuatorState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\geometry\Geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\geometry\Kinematics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\platform\StewartPlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\platform\SafetyMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\threading\ThreadedFOCDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\threading\ThreadedController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\threading\ThreadedSafetyMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\threading\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\control\TaskSpaceController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2ADD8689-F949-30F6-BC67-2AB058A93DAB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

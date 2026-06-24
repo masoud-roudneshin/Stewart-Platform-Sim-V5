@@ -1,0 +1,219 @@
+Start testing: Jun 21 13:51 Eastern Daylight Time
+----------------------------------------------------------
+1/8 Testing: KinematicsTest.PureHeaveGivesEqualLegLengths
+1/8 Test: KinematicsTest.PureHeaveGivesEqualLegLengths
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.PureHeaveGivesEqualLegLengths" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.PureHeaveGivesEqualLegLengths" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.PureHeaveGivesEqualLegLengths
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.PureHeaveGivesEqualLegLengths
+[       OK ] KinematicsTest.PureHeaveGivesEqualLegLengths (1 ms)
+[----------] 1 test from KinematicsTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.PureHeaveGivesEqualLegLengths" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.PureHeaveGivesEqualLegLengths" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/8 Testing: KinematicsTest.UnitVectorsHaveUnitLength
+2/8 Test: KinematicsTest.UnitVectorsHaveUnitLength
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.UnitVectorsHaveUnitLength" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.UnitVectorsHaveUnitLength" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.UnitVectorsHaveUnitLength
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.UnitVectorsHaveUnitLength
+[       OK ] KinematicsTest.UnitVectorsHaveUnitLength (0 ms)
+[----------] 1 test from KinematicsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.UnitVectorsHaveUnitLength" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.UnitVectorsHaveUnitLength" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/8 Testing: KinematicsTest.FKConvergesFromGoodInitialGuess
+3/8 Test: KinematicsTest.FKConvergesFromGoodInitialGuess
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.FKConvergesFromGoodInitialGuess" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.FKConvergesFromGoodInitialGuess" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.FKConvergesFromGoodInitialGuess
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.FKConvergesFromGoodInitialGuess
+[       OK ] KinematicsTest.FKConvergesFromGoodInitialGuess (0 ms)
+[----------] 1 test from KinematicsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.FKConvergesFromGoodInitialGuess" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.FKConvergesFromGoodInitialGuess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/8 Testing: KinematicsTest.FKRecoversTruePosition
+4/8 Test: KinematicsTest.FKRecoversTruePosition
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.FKRecoversTruePosition" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.FKRecoversTruePosition" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.FKRecoversTruePosition
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.FKRecoversTruePosition
+[       OK ] KinematicsTest.FKRecoversTruePosition (0 ms)
+[----------] 1 test from KinematicsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.FKRecoversTruePosition" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.FKRecoversTruePosition" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/8 Testing: KinematicsTest.FKIKRoundTrip
+5/8 Test: KinematicsTest.FKIKRoundTrip
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.FKIKRoundTrip" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.FKIKRoundTrip" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.FKIKRoundTrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.FKIKRoundTrip
+[       OK ] KinematicsTest.FKIKRoundTrip (0 ms)
+[----------] 1 test from KinematicsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.FKIKRoundTrip" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.FKIKRoundTrip" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/8 Testing: KinematicsTest.NeutralPoseGivesZeroRoll
+6/8 Test: KinematicsTest.NeutralPoseGivesZeroRoll
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=KinematicsTest.NeutralPoseGivesZeroRoll" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"KinematicsTest.NeutralPoseGivesZeroRoll" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = KinematicsTest.NeutralPoseGivesZeroRoll
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from KinematicsTest
+[ RUN      ] KinematicsTest.NeutralPoseGivesZeroRoll
+[       OK ] KinematicsTest.NeutralPoseGivesZeroRoll (0 ms)
+[----------] 1 test from KinematicsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"KinematicsTest.NeutralPoseGivesZeroRoll" end time: Jun 21 13:51 Eastern Daylight Time
+"KinematicsTest.NeutralPoseGivesZeroRoll" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/8 Testing: ControllersTest.Placeholder
+7/8 Test: ControllersTest.Placeholder
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=ControllersTest.Placeholder" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"ControllersTest.Placeholder" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ControllersTest.Placeholder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ControllersTest
+[ RUN      ] ControllersTest.Placeholder
+[       OK ] ControllersTest.Placeholder (0 ms)
+[----------] 1 test from ControllersTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ControllersTest.Placeholder" end time: Jun 21 13:51 Eastern Daylight Time
+"ControllersTest.Placeholder" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/8 Testing: UtilsTest.Placeholder
+8/8 Test: UtilsTest.Placeholder
+Command: "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/Debug/stewart_tests.exe" "--gtest_filter=UtilsTest.Placeholder" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests
+"UtilsTest.Placeholder" start time: Jun 21 13:51 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = UtilsTest.Placeholder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UtilsTest
+[ RUN      ] UtilsTest.Placeholder
+[       OK ] UtilsTest.Placeholder (0 ms)
+[----------] 1 test from UtilsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"UtilsTest.Placeholder" end time: Jun 21 13:51 Eastern Daylight Time
+"UtilsTest.Placeholder" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 21 13:51 Eastern Daylight Time

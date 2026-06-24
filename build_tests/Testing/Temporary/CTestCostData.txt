@@ -1,0 +1,10 @@
+KinematicsTest.Placeholder 1 0.174618
+ControllersTest.Placeholder 2 0.0052359
+UtilsTest.Placeholder 2 0.005167
+KinematicsTest.PureHeaveGivesEqualLegLengths 1 0.0183186
+KinematicsTest.UnitVectorsHaveUnitLength 1 0.0144484
+KinematicsTest.FKConvergesFromGoodInitialGuess 1 0.0105434
+KinematicsTest.FKRecoversTruePosition 1 0.011847
+KinematicsTest.FKIKRoundTrip 1 0.0108927
+KinematicsTest.NeutralPoseGivesZeroRoll 1 0.0099136
+---

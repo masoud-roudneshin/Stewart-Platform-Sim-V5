@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\420bfc71729ef3eaf5b3f520cec3d914\googletest-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\057ec57196aa87af9f92b446f834bc0b\googletest-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\7a19d0f9d8f48d5e61763c5270d464e3\googletest-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\masou\Desktop\Projects\Github_Control\Stewart_Platform_V3\build_tests\_deps\googletest-subbuild\CMakeFiles\googletest-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{123406CF-8736-3314-A707-C3036ED7C1DE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,27 @@
+# Build directories
+build/
+out/
+x64/
+Debug/
+Release/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled output
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib

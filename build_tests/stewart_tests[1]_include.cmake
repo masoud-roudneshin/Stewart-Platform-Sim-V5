@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/stewart_tests[1]_tests.cmake")
+  include("C:/Users/masou/Desktop/Projects/Github_Control/Stewart_Platform_V3/build_tests/stewart_tests[1]_tests.cmake")
+else()
+  add_test(stewart_tests_NOT_BUILT stewart_tests_NOT_BUILT)
+endif()

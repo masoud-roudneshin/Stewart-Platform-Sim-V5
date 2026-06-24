@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actuator">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geometry">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="threading">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{6162c9b6-86c6-42f0-b8c2-b22845c4840a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actuator\MotorDriver.cpp">
+      <Filter>actuator</Filter>
+    </ClCompile>
+    <ClCompile Include="actuator\ActuatorState.cpp">
+      <Filter>actuator</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry\Geometry.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry\Kinematics.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\StewartPlatform.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\SafetyMonitor.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\ThreadedFOCDriver.cpp">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\ThreadedController.cpp">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\ThreadedSafetyMonitor.cpp">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="threading\Logger.cpp">
+      <Filter>threading</Filter>
+    </ClCompile>
+    <ClCompile Include="control\TaskSpaceController.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test_kinematics.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test_controllers.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test_utils.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="math\Math.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\Geometry.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\Kinematics.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="actuator\MotorDriver.h">
+      <Filter>actuator</Filter>
+    </ClInclude>
+    <ClInclude Include="actuator\ActuatorState.h">
+      <Filter>actuator</Filter>
+    </ClInclude>
+    <ClInclude Include="control\PDController.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\StewartPlatform.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\SafetyMonitor.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\SharedData.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\ThreadedFOCDriver.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\ThreadedController.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\ThreadedSafetyMonitor.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="threading\Logger.h">
+      <Filter>threading</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\LoopTimer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\RingBuffer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="control\TaskSpaceController.h">
+      <Filter>control</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
