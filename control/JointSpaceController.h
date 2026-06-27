@@ -10,5 +10,5 @@ class JointSpaceController: public IController
 public:
 	JointSpaceController(real_t M, real_t b, real_t wn, real_t zeta, real_t dt);
 
-	Vec6 compute(const Vec6& desired, const Vec6& actual, const Vec6& velocity, const Mat6& J) override;
+	Vec6 compute(const ControlContext& control_cxt) override;
 };

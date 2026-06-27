@@ -10,5 +10,5 @@ public:
 	StewartController() = default;
 	void set_strategy(std::unique_ptr<IController> s);
 
-	Vec6 compute(const Vec6& desired, const Vec6& actual, const Vec6& velocity, const Mat6& J);
+	Vec6 compute(const ControlContext& control_cxt);
 };

@@ -3,17 +3,16 @@
 TaskSpaceController::TaskSpaceController(const Vec6& Kp_gains, const Vec6& Kd_gains): 
 					Kp_(Kp_gains.asDiagonal()), Kd_(Kd_gains.asDiagonal()){}
 
-Vec6 TaskSpaceController::compute(const Vec6& desired_pos, 
-	const Vec6& actual_pos,
-	const Vec6& actual_velocity,
-	const Mat6& Jacobian)// desired_pos = [x, y, z, roll, pitch, yaw]
+Vec6 TaskSpaceController::compute(const ControlContext& control_cxt)// desired_pos = [x, y, z, roll, pitch, yaw]
 // actual_pos  = [x, y, z, roll, pitch, yaw]
 // velocity    = [vx, vy, vz, wx, wy, wz]
 // J           = 6x6 Jacobian matrix
 {
 	// Position Error in Workspace
 	Vec3 e_pos;
-	e_pos << (desired_pos(0) - actual_pos(0)), (desired_pos(1) - actual_pos(1)), (desired_pos(2) - actual_pos(2));
+	e_pos << (control_cxt.desired_pose.x - control_cxt.actual_pose.x),
+		     (control_cxt.desired_pose.y - control_cxt.actual_pose.y),
+		     (control_cxt.desired_pose.z - control_cxt.actual_pose.z);
 
 	// Orientation Error in Workspace
 
@@ -21,8 +20,8 @@ Vec6 TaskSpaceController::compute(const Vec6& desired_pos,
 	Mat3 R_act;
 	Mat3 R_err;
 
-	R_des = compute_rotation_matrix(desired_pos(3), desired_pos(4), desired_pos(5));
-	R_act = compute_rotation_matrix(actual_pos(3), actual_pos(4), actual_pos(5));
+	R_des = compute_rotation_matrix(control_cxt.desired_pose.roll, control_cxt.desired_pose.pitch, control_cxt.desired_pose.yaw);
+	R_act = compute_rotation_matrix(control_cxt.actual_pose.roll, control_cxt.actual_pose.pitch, control_cxt.actual_pose.yaw);
 
 	R_err = R_des * R_act.transpose();
 
@@ -43,12 +42,12 @@ Vec6 TaskSpaceController::compute(const Vec6& desired_pos,
 	// Find Control Wrench
 
 	Vec6 W_control;
-	W_control = Kp_ * error_total - Kd_ * actual_velocity;
+	W_control = Kp_ * error_total - Kd_ * control_cxt.actual_taskspace_velocity;
 
 	// Control Force on each Actuator
 
 	Vec6 f_actuators;
-	Mat6 JT = Jacobian.transpose();
+	Mat6 JT = control_cxt.Jacobian.transpose();
 	f_actuators = JT.colPivHouseholderQr().solve(W_control);
 
 	return f_actuators;

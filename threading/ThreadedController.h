@@ -44,7 +44,7 @@ public:
 	void start();
 	void stop();
 
-	void set_target(const std::array<real_t,6>& target_strokes);
+	//void set_target(const std::array<real_t,6>& target_strokes);
 
 	void set_target(const Vec6& target_strokes);
 

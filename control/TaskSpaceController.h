@@ -12,8 +12,5 @@ public:
 
 	TaskSpaceController(const Vec6& Kp_gains, const Vec6& Kd_gains);
 
-	Vec6 compute(const Vec6& desired_pos,
-				const Vec6& actual_pos,
-				const Vec6& actual_velocity,
-				const Mat6& Jacobian) override;
+	Vec6 compute(const ControlContext& control_cxt) override;
 };
