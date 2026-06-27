@@ -3,22 +3,20 @@
 ThreadedController::ThreadedController(
 	std::array<ActuatorSharedData*, 6> shared,
 	ThreadedSafetyMonitor&			safety,
-	real_t wn,
-	real_t zeta,
-	real_t dt,
-	real_t force_to_iq_gain,
-	real_t moving_mass,
-	real_t viscous_friction)
+	std::unique_ptr<IController> strategy,
+	PlatformGeometry geom,
+	real_t mid_heave,
+	real_t dt)
 	: shared_(shared),
 	safety_(safety)
 	, timer_(std::chrono::duration_cast<std::chrono::microseconds>(
 		std::chrono::duration<real_t>(dt)))
+	, geom_(geom)
+	, mid_heave_(mid_heave)
 	, running_(false)
-	, force_to_iq_gain_(force_to_iq_gain)
+	
 {
-
-	for (int i = 0; i < 6; i++)
-		pd_controller_[i] = PDController(moving_mass, viscous_friction, wn, zeta, dt);
+	controller_.set_strategy(std::move(strategy));
 }
 
 
@@ -34,12 +32,38 @@ void ThreadedController::stop()
 	thread_.join();
 }
 
+void ThreadedController::compute_kinematics(ControlContext& control_cxt_)
+{
+	// This is acting as an estimator/processing node for a real system
+	Kinematics::compute_forward_kinematics(geom_, control_cxt_.actual_joints_length, control_cxt_.actual_pose);
+	Vec6   leg_lengths;
+	Mat3x6 unit_vectors;
+	Mat3x6 platform_joints_world;
+	Kinematics::compute_InverseKinematics(geom_, control_cxt_.actual_pose,
+		control_cxt_.actual_joints_length, unit_vectors, platform_joints_world);
 
+	Mat6 J;
+	Kinematics::compute_Jacobian(control_cxt_.actual_pose,
+		unit_vectors, platform_joints_world, control_cxt_.Jacobian);
 
-void ThreadedController::set_target(const Vec6& target_strokes)
+}
+
+void ThreadedController::set_target(const Vec6& desired_strokes, const Pose6DoF& desired_pose)
 {
 	std::lock_guard<std::mutex> lock(targets_mtx_); // To prevent data racing when target is called from outside
-	target_strokes_ = target_strokes;
+	
+	for (int i = 0; i < 6; i++)
+	{
+		control_cxt_.desired_strokes(i) = desired_strokes(i);
+	}
+
+	control_cxt_.desired_pose.x = desired_pose.x;
+	control_cxt_.desired_pose.y = desired_pose.y;
+	control_cxt_.desired_pose.z = desired_pose.z;
+	control_cxt_.desired_pose.roll = desired_pose.roll;
+	control_cxt_.desired_pose.pitch = desired_pose.pitch;
+	control_cxt_.desired_pose.yaw = desired_pose.yaw;
+
 }
 
 void ThreadedController::run()
@@ -65,19 +89,23 @@ void ThreadedController::run()
 
 		for (size_t i = 0; i < 6; i++)
 		{
-			real_t stroke_i, velocity_i;
+			
 
 			{
 				std::lock_guard<std::mutex> lock(shared_[i]->mtx_foc);
-				stroke_i = shared_[i]->latest_state.stroke;
-				velocity_i = shared_[i]->latest_state.velocity;
+				control_cxt_.actual_strokes(i) = shared_[i]->latest_state.stroke;
+				control_cxt_.actual_joints_velocity(i) = shared_[i]->latest_state.velocity;
 			}
 
-			real_t F_i = pd_controller_[i].compute(current_targets[i], stroke_i, velocity_i);
+			
 
-			real_t iq_ref_i = F_i * force_to_iq_gain_;
-			shared_[i]->iq_ref.store(iq_ref_i, std::memory_order_release);
+			
 		}
+
+		ThreadedController::compute_kinematics(control_cxt_);
+
+		real_t iq_ref_i = F_i * force_to_iq_gain_;
+		shared_[i]->iq_ref.store(iq_ref_i, std::memory_order_release);
 
 		timer_.wait_until();
 		

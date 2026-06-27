@@ -10,31 +10,38 @@
 #include "../platform/SafetyMonitor.h"
 #include "../threading/ThreadedSafetyMonitor.h"
 #include "../math/Math.h"
+#include "../control/IController.h"
+#include "../geometry/Kinematics.h"
+#include "../geometry/Geometry.h"
+#include "../control/StewartController.h"
 
 class ThreadedController
 {
-	std::mutex targets_mtx_;
+	std::mutex								targets_mtx_;
 	std::array<PDController, 6>				pd_controller_;
+	ControlContext							control_cxt_;
 
-	Vec6									target_strokes_ = Vec6::Zero();
+	std::mutex								strategy_mtx_;
+	StewartController						controller_;
+
+	PlatformGeometry						geom_;
+	real_t									mid_heave_;
 
 	LoopTimer								timer_{ std::chrono::microseconds(1000) };
 	std::array<ActuatorSharedData*, 6>		shared_;
 	ThreadedSafetyMonitor&					safety_;
 	std::thread								thread_;
 	std::atomic<bool>						running_{ false };
-	real_t									force_to_iq_gain_{ 0.0 };
+	
 
 public:
 
 	ThreadedController(std::array<ActuatorSharedData*, 6>		shared,
 		ThreadedSafetyMonitor& safety,
-		real_t wn,
-		real_t zeta,
-		real_t dt,
-		real_t force_to_iq_gain,
-		real_t moving_mass = 2.0,
-		real_t viscous_friction = 50.0);
+		std::unique_ptr<IController> strategy,
+		PlatformGeometry geom,
+		real_t mid_heave,
+		real_t dt = 0.001);
 	
 	ThreadedController(const ThreadedController&)				= delete;
 	ThreadedController& operator = (const ThreadedController&)	= delete;
@@ -44,9 +51,11 @@ public:
 	void start();
 	void stop();
 
+	void compute_kinematics(ControlContext& control_cxt_);
+
 	//void set_target(const std::array<real_t,6>& target_strokes);
 
-	void set_target(const Vec6& target_strokes);
+	void set_target(const Vec6& desired_strokes, const Pose6DoF& desired_pose);
 
 
 private:
