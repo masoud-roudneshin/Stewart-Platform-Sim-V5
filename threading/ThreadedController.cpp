@@ -2,10 +2,11 @@
 
 ThreadedController::ThreadedController(
 	std::array<ActuatorSharedData*, 6> shared,
-	ThreadedSafetyMonitor&			safety,
+	ThreadedSafetyMonitor& safety,
 	std::unique_ptr<IController> strategy,
 	PlatformGeometry geom,
 	real_t mid_heave,
+	real_t force_to_iq_gain,
 	real_t dt)
 	: shared_(shared),
 	safety_(safety)
@@ -13,6 +14,7 @@ ThreadedController::ThreadedController(
 		std::chrono::duration<real_t>(dt)))
 	, geom_(geom)
 	, mid_heave_(mid_heave)
+	, force_to_iq_gain_(force_to_iq_gain)
 	, running_(false)
 	
 {
@@ -69,6 +71,7 @@ void ThreadedController::set_target(const Vec6& desired_strokes, const Pose6DoF&
 void ThreadedController::run()
 {
 	timer_.start();
+	Vec6 leg_forces;
 
 	while (running_.load())
 	{
@@ -80,32 +83,28 @@ void ThreadedController::run()
 			continue;
 		}
 
-		Vec6 current_targets;
-
-		{
-			std::lock_guard<std::mutex> lock(targets_mtx_);
-			current_targets = target_strokes_;
-		}
 
 		for (size_t i = 0; i < 6; i++)
 		{
-			
-
 			{
 				std::lock_guard<std::mutex> lock(shared_[i]->mtx_foc);
 				control_cxt_.actual_strokes(i) = shared_[i]->latest_state.stroke;
 				control_cxt_.actual_joints_velocity(i) = shared_[i]->latest_state.velocity;
 			}
-
-			
-
 			
 		}
 
 		ThreadedController::compute_kinematics(control_cxt_);
+		
+		leg_forces = controller_.compute(control_cxt_);
 
-		real_t iq_ref_i = F_i * force_to_iq_gain_;
-		shared_[i]->iq_ref.store(iq_ref_i, std::memory_order_release);
+		// Multiply by force_to_iq_gain_
+		leg_forces *= force_to_iq_gain_;
+		// real_t iq_ref_i = F_i * force_to_iq_gain_;
+		for (int i = 0; i < 6; i++)
+		{
+			shared_[i]->iq_ref.store(leg_forces(i), std::memory_order_release);
+		}
 
 		timer_.wait_until();
 		

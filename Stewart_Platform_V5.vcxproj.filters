@@ -69,14 +69,11 @@
     <ClCompile Include="control\TaskSpaceController.cpp">
       <Filter>control</Filter>
     </ClCompile>
-    <ClCompile Include="tests\test_kinematics.cpp">
-      <Filter>tests</Filter>
+    <ClCompile Include="control\JointSpaceController.cpp">
+      <Filter>control</Filter>
     </ClCompile>
-    <ClCompile Include="tests\test_controllers.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="tests\test_utils.cpp">
-      <Filter>tests</Filter>
+    <ClCompile Include="control\StewartController.cpp">
+      <Filter>control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +123,15 @@
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="control\TaskSpaceController.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="control\IController.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="control\JointSpaceController.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="control\StewartController.h">
       <Filter>control</Filter>
     </ClInclude>
   </ItemGroup>

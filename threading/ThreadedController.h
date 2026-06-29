@@ -26,6 +26,7 @@ class ThreadedController
 
 	PlatformGeometry						geom_;
 	real_t									mid_heave_;
+	real_t									force_to_iq_gain_;
 
 	LoopTimer								timer_{ std::chrono::microseconds(1000) };
 	std::array<ActuatorSharedData*, 6>		shared_;
@@ -41,6 +42,7 @@ public:
 		std::unique_ptr<IController> strategy,
 		PlatformGeometry geom,
 		real_t mid_heave,
+		real_t force_to_iq_gain,
 		real_t dt = 0.001);
 	
 	ThreadedController(const ThreadedController&)				= delete;

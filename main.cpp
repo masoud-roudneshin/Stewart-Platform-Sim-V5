@@ -1,141 +1,140 @@
-﻿#include <Eigen/Dense>
+#include <Eigen/Dense>
+#include<array>
+#include <memory>
+#include <thread>
 #include <iostream>
-#include <iomanip>
-#include "math/Math.h"
 #include "geometry/Geometry.h"
+#include "threading/SharedData.h"
+#include "threading/ThreadedFOCDriver.h"
+#include "threading/ThreadedController.h"
+#include "threading/Logger.h"
+#include "actuator/MotorDriver.h"
 #include "geometry/Kinematics.h"
 #include "platform/StewartPlatform.h"
-#include "control/TaskSpaceController.h"
-#include "threading/SharedData.h" 
+#include "threading/ThreadedSafetyMonitor.h"
+#include "math/Math.h"
 #include "control/IController.h"
 #include "control/JointSpaceController.h"
 #include "control/StewartController.h"
-
+#include "control/TaskSpaceController.h"
 
 int main()
 {
-    ControlMode mode = ControlMode::TASK_SPACE;
 
-    std::cout << "=== Stewart Platform V3 — IK Test ===\n\n";
+    // Make Platform Geometry
 
-    // 1. Create Geometry
     PlatformGeometry geom(1.0, 0.5, 5.0 * PI / 180.0, 5.0 * PI / 180.0);
-    real_t body_length = 0.8;
-    LeadScrewParameters screw;
+    double body_length = 0.8;
     MotorParameters motor;
+    LeadScrewParameters screw;
+    real_t force_to_iq_gain = screw.lead / (2.0 * PI * motor.Kt * screw.efficiency);
 
     // Create temporary platform just to get geometry info
     StewartPlatform platform(geom, body_length, 0.6, 500.0, 10.0, 0.707, 0.0001);
     real_t mid_heave = platform.get_mid_heave();
 
-    // Desired pose
-    Pose6DoF desired;
-    desired.z = 0.05 + mid_heave;
-    desired.roll = 0.1;
+    // Make Actuators Shared Data between the threads (and also their pointers)
 
-    // Controller gains
+    std::array<std::unique_ptr<ActuatorSharedData>, 6> shared_data;
+
+    for (size_t i = 0; i < 6; i++)
+    {
+        shared_data[i] = std::make_unique<ActuatorSharedData>();
+    }
+
+    std::array<ActuatorSharedData*, 6> shared_ptrs;
+
+    for (size_t i = 0; i < 6; i++)
+    {
+        shared_ptrs[i] = shared_data[i].get();
+    }
+
+    // Making the threaded objects
+
+    // Make FOC Threaded Driver
+    ThreadedSafetyMonitor safety(shared_ptrs, 2.0, 500.0, 0.6);
+
+    std::array<std::unique_ptr<ThreadedFOCDriver>, 6> foc_drivers;
+
+    for (size_t i = 0; i < 6; i++)
+    {
+        foc_drivers[i] = std::make_unique<ThreadedFOCDriver>(*shared_data[i], safety);
+    }
+
+    // Controller
     Vec6 Kp_gains, Kd_gains;
     Kp_gains << 1000, 1000, 1000, 500, 500, 500;
     Kd_gains << 100, 100, 100, 50, 50, 50;
 
     Kp_gains *= 5.0;
     Kd_gains *= 3.0;
+    real_t dt = 0.001;
 
-    StewartController controller;
-    //controller.set_strategy(std::make_unique<TaskSpaceController>(Kp_gains, Kd_gains));
-    controller.set_strategy(std::make_unique<JointSpaceController>(2.0,5.0,10,0.7,0.001));
+    
 
-    // FK initial guess
-    Pose6DoF actual_pose;
-    actual_pose.z = mid_heave;  // neutral
+    ThreadedController controller(shared_ptrs,
+        safety,
+        std::make_unique<TaskSpaceController>(Kp_gains, Kd_gains),
+        geom,
+        mid_heave,
+        force_to_iq_gain,
+        dt); // computed above);
+    Logger logger(shared_ptrs, safety);
 
-    // Previous pose for velocity estimation
-    Pose6 prev_pose_vec = Kinematics::pose_to_vec(actual_pose);
+    // Set Controller
+    Pose6DoF target_pos;
+    target_pos.z = 0.05;
+    target_pos.roll = 0.1;
 
-    double dt = 0.001;
+    target_pos.z += mid_heave;   // offset by mid_heave
 
+    Vec6 leg_lengths;
+    Mat3x6 actuator_unit_vector;
+    Mat3x6 platform_joints_world_coords;
 
-    // For JointSpace Control
-
-    Vec6 target_leg_lengths;
-    Mat3x6 dummy1, dummy2;
-    Kinematics::compute_InverseKinematics(geom, desired,
-        target_leg_lengths, dummy1, dummy2);
-
-    Vec6 L_dot;
-    Vec6 desired_vec = target_leg_lengths;
-    Vec6 actual_vec;
-
-    for (int step = 0; step <= 5000; step++)
-    {
-        // 1. Run IK on actual pose to get unit vectors and Jacobian
-        Vec6   leg_lengths;
-        Mat3x6 unit_vectors;
-        Mat3x6 platform_joints_world;
-        Kinematics::compute_InverseKinematics(geom, actual_pose,
-            leg_lengths, unit_vectors, platform_joints_world);
-
-        Mat6 J;
-        Kinematics::compute_Jacobian(actual_pose,
-            unit_vectors, platform_joints_world, J);
-
-        // 2. Estimate velocity from finite differences
-        Pose6 curr_pose_vec = Kinematics::pose_to_vec(actual_pose);
-
-        for (int i = 0; i < 6; i++)
-            L_dot(i) = platform.get_actuator(i).get_velocity();
-
-        // Convert to task-space velocity
-        Vec6 actual_velocity = J.colPivHouseholderQr().solve(L_dot);
-
-        // 3. Compute leg forces from task-space controller
-        // ------------- TaskSpace Control ---------------------
-
-        // desired_vec = Kinematics::pose_to_vec(desired);
-        // actual_vec = Kinematics::pose_to_vec(actual_pose);
-
-        //Vec6 leg_forces = controller.compute(desired_vec, actual_vec, actual_velocity, J);
-        //------------ JointSpace Control -----------------------
-        for (int i = 0; i < 6; i++)
-            actual_vec(i) = platform.get_actuator(i).get_total_length();
-
-        Vec6 leg_forces = controller.compute(desired_vec, actual_vec, L_dot, J);
-
-        //
-        Vec6 measured_lengths;
-
-        // 4. Apply forces and update based on mode
-        platform.update(leg_forces);
-
-        // 5. Get actual leg lengths from actuators for FK
-
-        for (int i = 0; i < 6; i++)
-            measured_lengths(i) = platform.get_actuator(i).get_total_length();
-
-        // 6. Run FK to get actual pose
-        Kinematics::compute_forward_kinematics(geom, measured_lengths, actual_pose);
-
-        // 7. Print every 100 steps
-        if (step % 500 == 0)
-        {
-            std::cout << "t=" << step * dt * 1000 << "ms"
-                << "  actual z = " << std::fixed << std::setprecision(4) << actual_pose.z
-                << "  actual roll = " << actual_pose.roll
-                << "  (target z = " << desired.z << " target roll = " << desired.roll << ")\n";
-
-            std::cout << "leg_forces: " << leg_forces.transpose() << "\n";
-            std::cout << "actual forces: ";
-            for (int i = 0; i < 6; i++)
-                std::cout << platform.get_actuator(i).get_force() << " ";
-            std::cout << "\n";
-            std::cout << "actual strokes: ";
-            for (int i = 0; i < 6; i++)
-                std::cout << platform.get_actuator(i).get_stroke() << " ";
-            std::cout << "\n\n";
-        }
-    }
+    Kinematics::compute_InverseKinematics(geom, target_pos, leg_lengths, actuator_unit_vector, platform_joints_world_coords);
+    Vec6 desired_strokes = leg_lengths.array() - body_length;
+    controller.set_target(desired_strokes, target_pos);  // target_pos is already Pose6DoF
+    
 
 
+
+    // Starting the threads
+    safety.start();
+    for (int i = 0; i < 6; i++) { foc_drivers[i]->start(); }
+
+    controller.start();
+
+    logger.start();
+
+    // Wait for the user's input
+
+    /*
+    std::cout << "Press Enter to stop...\n";
+    std::cin.get();
+    safety.estop();
+    */
+
+    // Wait 2 seconds then trigger ESTOP test
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::cout << "\nTriggering ESTOP...\n" << std::flush;
+    safety.estop();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // longer wait
+    std::cout << "\n\n=== ESTOP TRIGGERED ===\n" << std::flush;
+    std::cout << "State: " << static_cast<int>(safety.get_state()) << "\n" << std::flush;
+    std::cout << "Press Enter to exit...\n" << std::flush;
+
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+
+    std::cout << "Stopping logger...\n" << std::flush;
+    logger.stop();
+    std::cout << "Stopping controller...\n" << std::flush;
+    controller.stop();
+    std::cout << "Stopping FOC...\n" << std::flush;
+    for (int i = 0; i < 6; i++) foc_drivers[i]->stop();
+    std::cout << "Stopping safety...\n" << std::flush;
+    safety.stop();
+    std::cout << "All stopped.\n" << std::flush;
 
     return 0;
 }
