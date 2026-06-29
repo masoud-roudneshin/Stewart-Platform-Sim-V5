@@ -76,10 +76,20 @@ void ThreadedController::set_target(const Vec6& desired_strokes, const Pose6DoF&
 
 }
 
+void ThreadedController::on_state_updated(int actuator_index, const FOCState& state)
+{
+	std::lock_guard<std::mutex> lock(sensor_mtx_);
+	control_cxt_.actual_strokes(actuator_index) = state.stroke;
+	control_cxt_.actual_joints_velocity(actuator_index) = state.velocity;
+	control_cxt_.actual_joints_length(actuator_index) = state.stroke + body_length_;
+}
+
 void ThreadedController::run()
 {
 	timer_.start();
+
 	Vec6 leg_forces;
+	ControlContext ctx;
 
 	while (running_.load())
 	{
@@ -92,20 +102,15 @@ void ThreadedController::run()
 		}
 
 
-		for (size_t i = 0; i < 6; i++)
-		{
-			{
-				std::lock_guard<std::mutex> lock(shared_[i]->mtx_foc);
-				control_cxt_.actual_strokes(i) = shared_[i]->latest_state.stroke;
-				control_cxt_.actual_joints_velocity(i) = shared_[i]->latest_state.velocity;
-				control_cxt_.actual_joints_length(i) = shared_[i]->latest_state.stroke + body_length_;
-			}
-			
-		}
-
-		ThreadedController::compute_kinematics(control_cxt_);
 		
-		leg_forces = controller_.compute(control_cxt_);
+
+		
+		{
+			std::lock_guard<std::mutex> lock(sensor_mtx_);
+			ctx = control_cxt_;
+		}
+		compute_kinematics(ctx);
+		leg_forces = controller_.compute(ctx);
 
 		// Multiply by force_to_iq_gain_
 		leg_forces *= force_to_iq_gain_;
@@ -120,8 +125,8 @@ void ThreadedController::run()
 		{
 			std::cout << "t=" << iteration_ << "ms"
 				<< "  z=" << std::fixed << std::setprecision(4)
-				<< control_cxt_.actual_pose.z - mid_heave_
-				<< "  roll=" << control_cxt_.actual_pose.roll
+				<< ctx.actual_pose.z - mid_heave_
+				<< "  roll=" << ctx.actual_pose.roll
 				<< "  forces: " << leg_forces.transpose() / force_to_iq_gain_
 				<< "\n" << std::flush;
 		}

@@ -7,6 +7,7 @@
 #include "../actuator/MotorDriver.h"
 #include "../threading/ThreadedSafetyMonitor.h"
 #include "../math/Math.h"
+#include "../threading/IActuatorObserver.h"
 
 class ThreadedFOCDriver
 {
@@ -16,11 +17,13 @@ class ThreadedFOCDriver
 	ThreadedSafetyMonitor& safety_;
 	std::thread thread_;
 	std::atomic<bool> running_{ false };
+	std::vector<IActuatorObserver*> observers_;
+	int id_;
 
 public:
 
 	ThreadedFOCDriver(ActuatorSharedData& shared_data,
-		ThreadedSafetyMonitor& safety,
+		ThreadedSafetyMonitor& safety, int id,
 		MotorParameters motor = MotorParameters(),
 		LeadScrewParameters screw = LeadScrewParameters(),
 		real_t max_stroke = 0.6,
@@ -34,6 +37,9 @@ public:
 
 	void start();
 	void stop();
+
+	void add_observer(IActuatorObserver* obs);
+	void notify(int id, const FOCState& state);
 
 private:
 	void run();

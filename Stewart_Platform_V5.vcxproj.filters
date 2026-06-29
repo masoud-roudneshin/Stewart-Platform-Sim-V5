@@ -134,5 +134,8 @@
     <ClInclude Include="control\StewartController.h">
       <Filter>control</Filter>
     </ClInclude>
+    <ClInclude Include="threading\IActuatorObserver.h">
+      <Filter>threading</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

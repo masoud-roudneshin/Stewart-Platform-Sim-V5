@@ -55,7 +55,7 @@ int main()
 
     for (size_t i = 0; i < 6; i++)
     {
-        foc_drivers[i] = std::make_unique<ThreadedFOCDriver>(*shared_data[i], safety);
+        foc_drivers[i] = std::make_unique<ThreadedFOCDriver>(*shared_data[i], safety, i);
     }
 
     // Controller
@@ -78,6 +78,14 @@ int main()
         body_length,
         dt); // computed above);
     Logger logger(shared_ptrs, safety);
+
+    // Registering observers
+
+    for (int i = 0; i < 6; i++)
+    {
+        foc_drivers[i]->add_observer(&logger);
+        foc_drivers[i]->add_observer(&controller);
+    }
 
     // Set Controller
     Pose6DoF target_pos;

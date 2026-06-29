@@ -4,6 +4,7 @@
 
 ThreadedFOCDriver::ThreadedFOCDriver(	ActuatorSharedData& shared_data,
 										ThreadedSafetyMonitor& safety,
+										int id,
 										MotorParameters motor,
 										LeadScrewParameters screw,
 										real_t max_stroke,
@@ -13,6 +14,7 @@ ThreadedFOCDriver::ThreadedFOCDriver(	ActuatorSharedData& shared_data,
 										std::chrono::duration<real_t>(dt))), 
 										shared_(shared_data), 
 										safety_(safety),
+										id_(id),
 										running_(false) {}
 
 void ThreadedFOCDriver::start()
@@ -29,6 +31,16 @@ void ThreadedFOCDriver::stop()
 	thread_.join();
 }
 
+void ThreadedFOCDriver::add_observer(IActuatorObserver* obs)
+{
+	observers_.push_back(obs);
+}
+
+void ThreadedFOCDriver::notify(int id, const FOCState& state)
+{
+	for (auto* obs : observers_)
+		obs->on_state_updated(id, state);
+}
 
 
 void ThreadedFOCDriver::run()
@@ -55,6 +67,8 @@ void ThreadedFOCDriver::run()
 			shared_.latest_state.iteration++;
 			snap_shot = shared_.latest_state;
 		}
+
+		notify(id_, shared_.latest_state);
 		
 		shared_.log_buffer.push_overwrite(snap_shot);
 

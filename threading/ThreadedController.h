@@ -14,12 +14,14 @@
 #include "../geometry/Kinematics.h"
 #include "../geometry/Geometry.h"
 #include "../control/StewartController.h"
+#include "../threading/IActuatorObserver.h"
 
-class ThreadedController
+class ThreadedController: public IActuatorObserver
 {
 	std::mutex								targets_mtx_;
-	std::array<PDController, 6>				pd_controller_;
 	ControlContext							control_cxt_;
+
+	std::mutex								sensor_mtx_;  
 
 	std::mutex								strategy_mtx_;
 	StewartController						controller_;
@@ -61,6 +63,8 @@ public:
 	//void set_target(const std::array<real_t,6>& target_strokes);
 
 	void set_target(const Vec6& desired_strokes, const Pose6DoF& desired_pose);
+
+	void on_state_updated(int actuator_index, const FOCState& state) override;
 
 
 private:

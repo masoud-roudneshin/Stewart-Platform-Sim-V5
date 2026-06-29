@@ -17,6 +17,11 @@ void Logger::stop()
 	thread_.join();
 }
 
+void Logger::on_state_updated(int actuator_index, const FOCState& state)
+{
+	shared_[actuator_index]->log_buffer.push_overwrite(state);
+}
+
 void Logger::run()
 {
 	while (running_.load())

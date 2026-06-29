@@ -5,9 +5,10 @@
 #include <array>
 #include "../threading/SharedData.h"
 #include "../threading/ThreadedSafetyMonitor.h"
+#include "../threading/IActuatorObserver.h"
 #include "../math/Math.h"
 
-class Logger
+class Logger: public IActuatorObserver
 {
 	std::mutex print_mtx_;
 	ThreadedSafetyMonitor& safety_;
@@ -26,6 +27,8 @@ public:
 
 	void start();
 	void stop();
+
+	void on_state_updated(int actuator_index, const FOCState& state) override;
 
 private: 
 	void run();

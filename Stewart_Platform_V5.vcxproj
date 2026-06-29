@@ -159,6 +159,7 @@
     <ClInclude Include="control\PDController.h" />
     <ClInclude Include="platform\StewartPlatform.h" />
     <ClInclude Include="platform\SafetyMonitor.h" />
+    <ClInclude Include="threading\IActuatorObserver.h" />
     <ClInclude Include="threading\SharedData.h" />
     <ClInclude Include="threading\ThreadedFOCDriver.h" />
     <ClInclude Include="threading\ThreadedController.h" />
