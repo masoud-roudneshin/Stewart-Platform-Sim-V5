@@ -25,6 +25,7 @@ void Logger::run()
 		for (size_t i = 0; i < 6; i++)
 		{
 			FOCState state;
+			/*
 			if (shared_[i]->log_buffer.pop(state) && !safety_.is_estop())
 			{
 				all_empty = false;
@@ -38,6 +39,7 @@ void Logger::run()
 				std::cout << "id = " << state.id << "\n";
 				
 			}
+			*/
 		}
 
 		if (all_empty)

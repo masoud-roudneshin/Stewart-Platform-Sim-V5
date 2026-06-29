@@ -33,6 +33,8 @@ class ThreadedController
 	ThreadedSafetyMonitor&					safety_;
 	std::thread								thread_;
 	std::atomic<bool>						running_{ false };
+	int										iteration_{ 0 };
+	real_t									body_length_;
 	
 
 public:
@@ -43,6 +45,7 @@ public:
 		PlatformGeometry geom,
 		real_t mid_heave,
 		real_t force_to_iq_gain,
+		real_t body_length,
 		real_t dt = 0.001);
 	
 	ThreadedController(const ThreadedController&)				= delete;

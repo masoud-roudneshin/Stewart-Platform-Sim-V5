@@ -13,9 +13,6 @@
 #include "platform/StewartPlatform.h"
 #include "threading/ThreadedSafetyMonitor.h"
 #include "math/Math.h"
-#include "control/IController.h"
-#include "control/JointSpaceController.h"
-#include "control/StewartController.h"
 #include "control/TaskSpaceController.h"
 
 int main()
@@ -52,7 +49,7 @@ int main()
     // Making the threaded objects
 
     // Make FOC Threaded Driver
-    ThreadedSafetyMonitor safety(shared_ptrs, 2.0, 500.0, 0.6);
+    ThreadedSafetyMonitor safety(shared_ptrs, 100.0, 10000.0, 1.0);
 
     std::array<std::unique_ptr<ThreadedFOCDriver>, 6> foc_drivers;
 
@@ -66,8 +63,8 @@ int main()
     Kp_gains << 1000, 1000, 1000, 500, 500, 500;
     Kd_gains << 100, 100, 100, 50, 50, 50;
 
-    Kp_gains *= 5.0;
-    Kd_gains *= 3.0;
+    // Kp_gains *= 5.0;
+    // Kd_gains *= 3.0;
     real_t dt = 0.001;
 
     
@@ -78,6 +75,7 @@ int main()
         geom,
         mid_heave,
         force_to_iq_gain,
+        body_length,
         dt); // computed above);
     Logger logger(shared_ptrs, safety);
 
@@ -116,7 +114,7 @@ int main()
     */
 
     // Wait 2 seconds then trigger ESTOP test
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     std::cout << "\nTriggering ESTOP...\n" << std::flush;
     safety.estop();
     std::this_thread::sleep_for(std::chrono::milliseconds(500)); // longer wait

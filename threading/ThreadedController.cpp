@@ -7,6 +7,7 @@ ThreadedController::ThreadedController(
 	PlatformGeometry geom,
 	real_t mid_heave,
 	real_t force_to_iq_gain,
+	real_t body_length,
 	real_t dt)
 	: shared_(shared),
 	safety_(safety)
@@ -15,10 +16,13 @@ ThreadedController::ThreadedController(
 	, geom_(geom)
 	, mid_heave_(mid_heave)
 	, force_to_iq_gain_(force_to_iq_gain)
+	, body_length_(body_length)
 	, running_(false)
 	
 {
 	controller_.set_strategy(std::move(strategy));
+	control_cxt_.actual_pose.z = mid_heave_;
+	control_cxt_.actual_joints_length = Vec6::Constant(body_length_);  // all legs at body_length
 }
 
 
@@ -38,15 +42,19 @@ void ThreadedController::compute_kinematics(ControlContext& control_cxt_)
 {
 	// This is acting as an estimator/processing node for a real system
 	Kinematics::compute_forward_kinematics(geom_, control_cxt_.actual_joints_length, control_cxt_.actual_pose);
-	Vec6   leg_lengths;
+
 	Mat3x6 unit_vectors;
 	Mat3x6 platform_joints_world;
+	Vec6 ik_lengths;
 	Kinematics::compute_InverseKinematics(geom_, control_cxt_.actual_pose,
-		control_cxt_.actual_joints_length, unit_vectors, platform_joints_world);
+		ik_lengths, unit_vectors, platform_joints_world);
 
-	Mat6 J;
+	
 	Kinematics::compute_Jacobian(control_cxt_.actual_pose,
 		unit_vectors, platform_joints_world, control_cxt_.Jacobian);
+
+	control_cxt_.actual_taskspace_velocity =
+		control_cxt_.Jacobian.colPivHouseholderQr().solve(control_cxt_.actual_joints_velocity);
 
 }
 
@@ -90,6 +98,7 @@ void ThreadedController::run()
 				std::lock_guard<std::mutex> lock(shared_[i]->mtx_foc);
 				control_cxt_.actual_strokes(i) = shared_[i]->latest_state.stroke;
 				control_cxt_.actual_joints_velocity(i) = shared_[i]->latest_state.velocity;
+				control_cxt_.actual_joints_length(i) = shared_[i]->latest_state.stroke + body_length_;
 			}
 			
 		}
@@ -104,6 +113,17 @@ void ThreadedController::run()
 		for (int i = 0; i < 6; i++)
 		{
 			shared_[i]->iq_ref.store(leg_forces(i), std::memory_order_release);
+		}
+
+		iteration_++;
+		if (iteration_ % 100 == 0)  // every 1 second (1kHz * 1000)
+		{
+			std::cout << "t=" << iteration_ << "ms"
+				<< "  z=" << std::fixed << std::setprecision(4)
+				<< control_cxt_.actual_pose.z - mid_heave_
+				<< "  roll=" << control_cxt_.actual_pose.roll
+				<< "  forces: " << leg_forces.transpose() / force_to_iq_gain_
+				<< "\n" << std::flush;
 		}
 
 		timer_.wait_until();
